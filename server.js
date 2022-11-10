@@ -10,8 +10,9 @@ const { upload } = require("./fileupload");
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(process.env.CLIENT_ID);
 const path = require("path");
-const { userSchema, blogSchema, commentSchema } = require("./schema");
+
 const { verify } = require("./googleAuth");
+const { Blog, Users, Comments } = require("./model");
 
 /* 1- Create the .env File with the following content:
 MONGO_URI=your_mongo_uri
@@ -32,16 +33,19 @@ app.use(express.static(__dirname + "/public"));
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect(process.env.MONGO_URI);
-console.log("Connected to MongoDB");
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then((e) => {
+    console.log("Connected Successfully");
+  })
+  .catch((e) => {
+    console.error(e.message);
+  });
 
 //! - Didn't use it yet
 
 //! - Creating the MongoDB Model
-const Blog = mongoose.model("Note", blogSchema);
 
-const Users = mongoose.model("User", userSchema);
-const Comments = mongoose.model("Comment", commentSchema);
 
 //? - To be used after building react app and copying it to the public folder
 //****************************************************** */
@@ -65,7 +69,7 @@ app.get("/api/", (req, res) => {
   });
 });
 
-//! Ignore this
+
 app.post("/api/login", (req, res) => {
   const { googleId, imageUrl, email, name } = req.body.profileObj;
   const { userType } = req.body;
@@ -120,6 +124,7 @@ app.post("/api/blogpost", (req, res) => {
         authorImg,
         timestamp,
         authorGoogleId,
+        id
       } = req.body;
       console.log(req.body);
 
@@ -132,6 +137,7 @@ app.post("/api/blogpost", (req, res) => {
         authorImg: authorImg,
         authorGoogleId: authorGoogleId,
         timestamp: timestamp,
+        id: id,
       });
 
       if (env === process.env.TOKENFORBLOG) {

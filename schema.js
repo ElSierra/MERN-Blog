@@ -24,6 +24,7 @@ const userSchema = {
     authorImg: String,
     timestamp: String,
     authorGoogleId: String,
+    id: String,
   };
   //! - Schema for Comments
   

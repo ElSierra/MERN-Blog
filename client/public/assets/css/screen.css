@@ -461,7 +461,7 @@ textarea::-moz-placeholder {
 }
 input::placeholder,
 textarea::placeholder {
-  color: var(--color-font-one);
+  color: rgb(131, 131, 131);
 }
 .header-logo .is-logo img,
 .footer-logo .is-logo img {
@@ -4550,4 +4550,25 @@ textarea::placeholder {
   .custom-archive .item-excerpt {
     font-size: 1.6rem;
   }
+}
+.blogPost {
+  border: 2px solid rgb(0, 0, 0);
+  padding: 10px;
+  border-radius: 50px 20px;
+  background-color: rgb(239, 238, 240);
+  max-width: "70%";
+  text-align: "center";
+  margin-left: 12%;
+  margin-right: 12%;
+}
+
+.file-upload {
+  
+  padding: 10px;
+  border-radius: 50px 20px;
+  background-color: rgb(239, 238, 240);
+  max-width: "70%";
+  text-align: "center";
+  margin-left: 12%;
+  margin-right: 12%;
 }

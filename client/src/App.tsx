@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import logo from "./logo.svg";
 import Author from "./routes/Author";
-import Blog from "./routes/blogpost";
+import Blog from "./routes/blogContent";
 import Compose from "./routes/Compose";
 import Home from "./routes/Home";
 

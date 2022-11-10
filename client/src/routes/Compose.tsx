@@ -17,6 +17,7 @@ function Compose() {
         imageUrl={User.picture}
         uName={User.name}
         googleid={User.googleId}
+        id = {User._id}
       />
     </div>
   );

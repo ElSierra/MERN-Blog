@@ -6,7 +6,8 @@ import Recomended from "./posts/recommended";
 import Welcome from "./WelcomeHome";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import axios from "axios";
-import { users, userInfo } from "../userInterface";
+import { users, userInfo, blog, blogInfo } from "../userInterface";
+import { getApi } from "../get";
 
 const queryClient = new QueryClient();
 export default function Body(props: any) {
@@ -18,14 +19,11 @@ export default function Body(props: any) {
 }
 function BodyComp(props: any) {
   const [User, setUser] = useState<[users]>([userInfo]);
+  const [blog, setBlog] = useState<[blog]>([blogInfo]);
   const { isLoading, error, data, isFetching } = useQuery(["repoData"], () => {
-    axios
-      .get("/api/author")
-      .then((res) => {
-        console.log(res.data)
-        setUser(res.data);
-      })
-      .catch((err) => console.log(err));
+    getApi(setUser, "author");
+    getApi(setBlog, "");
+    
   });
 
   console.log({
@@ -50,13 +48,9 @@ function BodyComp(props: any) {
           </small>
           <div className="global-authors option-1-2-3">
             <div>
-             
-             
-            {User.map((user, index) => {
-                      return (
-                        <Authors user = {user} />
-                      );
-                    })}
+              {User.map((user, index) => {
+                return <Authors user={user} />;
+              })}
             </div>
             <small>Meet our author</small>
             <small>Meet our authors</small>
@@ -64,7 +58,8 @@ function BodyComp(props: any) {
           </div>
         </div>
         <div className="loop-wrap">
-          <Blog />
+          {blog.map(posts => {return <Blog content = {posts} />})}
+          
         </div>
       </div>
       <div className="pagination-section">

@@ -52,6 +52,7 @@ export default function Header(props: any) {
                 <ul>
                   <li>
                   <Link
+               
                   
                     to={`/author/${props.userInfo._id}`}
                     state={
@@ -69,7 +70,25 @@ export default function Header(props: any) {
                    Profile
                   </Link>
                   </li>
-                
+                  <li>
+                {props.userInfo.userType === "writer" ? <Link
+                     style={{paddingLeft: 22}}
+                    to={`/compose`}
+                    state={
+                      {
+                        // id: props.id,
+                        // title: props.title,
+                        // content: props.content,
+                        // date: props.date,
+                        // postImg: props.postImg,
+                        // authorName: props.authorName,
+                        // authorImg: props.authorImg,
+                      }
+                    }
+                  >
+                   Compose
+                  </Link> : ''}
+                  </li>
                 </ul>
               </li>
               {/* <li className="header-search search-open is-desktop global-button">

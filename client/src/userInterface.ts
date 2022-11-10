@@ -7,6 +7,18 @@ const userInfo = {
 
   _id: "",
 };
+
+const blogInfo = {
+  title: "",
+  content: "",
+  date: "",
+  img: "",
+  authorName: "",
+  authorImg: "",
+  authorGoogleId: "",
+  timestamp: "",
+  id: ""
+};
 export interface users {
   email: string;
   googleId:string;
@@ -15,5 +27,16 @@ export interface users {
   userType: string;
   _id: string;
 }
-export { userInfo };
+export interface blog{
+  title: string;
+  content: string;
+  date: string;
+  img: string;
+  authorName: string;
+  authorImg: string;
+  authorGoogleId: string;
+  timestamp: string;
+  id: String
+}
+export { userInfo, blogInfo };
 

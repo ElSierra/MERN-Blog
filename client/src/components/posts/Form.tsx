@@ -8,7 +8,8 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
 import FilePondPluginFileValidateSize from "filepond-plugin-file-validate-size";
-
+import BackupIcon from "@mui/icons-material/Backup";
+import { fontSize } from "@mui/system";
 
 registerPlugin(FilePondPluginFileValidateSize, FilePondPluginImagePreview);
 export function Form(props: any) {
@@ -139,6 +140,7 @@ export function Form(props: any) {
     formData.append("authorImg", blogPost.imgUrl.toString());
     formData.append("timestamp", Date.now().toString());
     formData.append("authorGoogleId", props.googleid);
+    formData.append("id",props.id);
 
     //current timestamp
 
@@ -180,9 +182,11 @@ export function Form(props: any) {
     e.preventDefault();
   }
   return (
-    <div className="container single-content">
-     
-      <div className="comment-form wow fadeIn animated">
+    <div>
+      <div
+        className="blogPost"
+        style={{ backgroundColor: "rgb(239, 238, 240)" }}
+      >
         <div>
           {fileLimit ? (
             <p>⚠️ File is too Large ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ </p>
@@ -190,46 +194,59 @@ export function Form(props: any) {
             ""
           )}
         </div>
-        
-        <div className="custom-content"   style={{ maxWidth: '80%'}}>
-        <form className="form-contact comment_form" action="#" id="commentForm">
-        <h1 className="custom-title global-title">{props.name}</h1>
-          <p style={{ display: "inline-block" }}>{props.uName}</p>
-          <div style={{maxWidth: '500px'}}>
-            <FilePond
-              
-              
-        files={files}
-        // @ts-ignore
-        onupdatefiles={(e) => setFiles(e)}
-        allowMultiple={true}
-        maxFiles={1}
-        name="files"
-        labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-      />
+
+        <div className="custom-content" style={{ maxWidth: "80%" }}>
+          <form
+            className="form-contact comment_form"
+            action="#"
+            id="commentForm"
+          >
+            <Avatar
+              src={props.imageUrl}
+              googleId={props.googleId}
+              size="30"
+              round={true}
+              style={{
+                display: "inline-block",
+                marginBottom: 0,
+                marginRight: 5,
+              }}
+            /><span style={{fontSize: '13px', paddingRight: '2px'}}>by</span>
+            <p style={{ display: "inline-block", fontStyle: "italic", fontWeight: 'bold'}}>{props.uName}</p>
+            <div className="blogPost">
+              <FilePond
+              className="file-upload"
+                files={files}
+                // @ts-ignore
+                onupdatefiles={(e) => setFiles(e)}
+                allowMultiple={true}
+                maxFiles={1}
+                name="files"
+                labelIdle='<h2  style= "text-align:right">Click to upload Image</h2>'
+                stylePanelLayout={"compact"}
+              />
             </div>
-          <div className="row">
-            <div className="col-sm-6">
-              <div className="form-group">
-                <input
-                  className="form-control"
-                  style={{borderRadius: '0px', maxWidth: '500px'}}
-                  name="title"
-                  id="title"
-                  type="text"
-                  value={blogPost.title.toString()}
-                  placeholder="Title"
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                />
+            <div className="row">
+              <div className="col-sm-6">
+                <div className="form-group">
+                  <input
+                    className="form-control"
+                    style={{ borderRadius: "0px", maxWidth: "500px" }}
+                    name="title"
+                    id="title"
+                    type="text"
+                    value={blogPost.title.toString()}
+                    placeholder="Title"
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
+                  />
+                </div>
               </div>
-            </div>
-      
+
               <div className="form-group">
-              
                 <textarea
-                style={{maxWidth: 'inherit'}}
+                  style={{ maxWidth: "inherit" , resize: 'none' }}
                   className="form-control w-100"
                   name={props.name}
                   id={props.id}
@@ -242,24 +259,25 @@ export function Form(props: any) {
                   }}
                 ></textarea>
               </div>
-         
-          </div>
-          <div className="form-group">
-            {files.length !== 0 ? (
-              <button
-                type="submit"
-                className="global-button"
-                onClick={(e) => {
-                  updateContent(e);
-                }}
-              >
-                {props.name}
-              </button>
-            ) : (
-              ""
-            )}
-          </div>
-        </form></div>
+            </div>
+            <div className="form-group">
+              {files.length !== 0 ? (
+                <button
+                style={{ fontSize: '12px'}}
+                  type="submit"
+                  className="global-button"
+                  onClick={(e) => {
+                    updateContent(e);
+                  }}
+                >
+                  {props.name}
+                </button>
+              ) : (
+                ""
+              )}
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
