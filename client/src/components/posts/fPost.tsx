@@ -1,35 +1,29 @@
+import { padding } from "@mui/system";
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function FPost(props: any) {
 
-return(<article className="item is-featured is-small is-image">
-<div className="item-image global-image global-image-orientation global-radius">
-  <a
-    href="/new-technology-is-not-good-or-evil-in-and-of-itself/"
-    className="global-link"
-    aria-label="New technology is not good or evil in and of itself"
-  ></a>
+  const reduceLength = (str: string, length: number) => {
+    return str.length > length ? str.substring(0, length) + "....": str;
+  };
+
+return(<article className="item is-featured is-small is-image" style={{width: '100%',}}>
+<div className="item-image global-image global-featured-orientation global-radius">
+  <Link className="global-link" to ={`/blog/${props.content._id}`}></Link>
   <img
-    srcSet="/content/images/size/w300/2022/03/photo-1559650656-5d1d361ad10e.jpeg 300w, 
-/content/images/size/w600/2022/03/photo-1559650656-5d1d361ad10e.jpeg 600w,
-/content/images/size/w1200/2022/03/photo-1559650656-5d1d361ad10e.jpeg 1200w"
-    sizes="(max-width:480px) 300px, (max-width:768px) 600px, 1200px"
-    src="/content/images/size/w1200/2022/03/photo-1559650656-5d1d361ad10e.jpeg"
-    loading="lazy"
-    alt=""
+    src= {props.content.img} alt = {props.content.title}
   />
   <div className="item-authors global-authors">
     <div>
       <div className="item-author global-item-author is-image global-image">
-        <a
-          href="/author/liza/"
-          className="global-link"
-          title="Liza Harber"
-        ></a>
+
+      <Link className="global-link" title={props.content.authorName} to={`/author/${props.content.id}`}></Link>
+       
         <img
-          src="/content/images/size/w300/2022/03/good-faces-onKIR2oTW0o-unsplash.jpg"
+          src={props.content.authorImg}
           loading="lazy"
-          alt="Liza Harber"
+          alt={props.content.authorName}
         />{" "}
       </div>
     </div>
@@ -37,25 +31,15 @@ return(<article className="item is-featured is-small is-image">
 </div>
 <div className="item-content">
   <div className="item-tags global-tags">
-    <a href="/tag/design/">Design</a>
-    <span>
-      <a href="/tag/idea/">Idea</a>
-      <a href="/tag/review/">Review</a>
-    </span>
+    <a>{reduceLength(props.content.content, 180)}</a>
+    
   </div>
-  <h2 className="item-title">
-    <a href="/new-technology-is-not-good-or-evil-in-and-of-itself/">
-      New technology is not good or evil in and of itself
-    </a>
-  </h2>
-  <p className="item-excerpt">
-    Vestibulum vehicula dui venenatis neque tempor, accumsan
-    iaculis sapien ornare. Sed at ante porta, ullamcorper
-    massa eu, ullamcorper sapien. Donec pretium tortor augue.
-    Integer egestas ut tellus sed pretium. Nullam tristique
-    augue ut mattis vulputate. Duis et lorem in odio ultricies
-    porttitor.
-  </p>
+  <h1 className="item-title" style={{maxWidth: '100%', textAlign: 'center'}}>
+  <Link to={`/blog/${props.content._id}`}>
+            {props.content.title}
+          </Link>
+  </h1>
+  
 </div>
 </article>);
 

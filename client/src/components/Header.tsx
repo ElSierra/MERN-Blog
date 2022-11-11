@@ -1,96 +1,66 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Avatar from "react-avatar";
+import EditIcon from "@mui/icons-material/Edit";
+import Fab from "@mui/material/Fab";
+import Dropdown from "react-bootstrap/Dropdown";
 
 export default function Header(props: any) {
   const logOut = () => {
     localStorage.removeItem("userInfo");
   };
-  console.log(props)
+  console.log(props);
   return (
     <header className="header-section">
       <div className="header-wrap global-padding">
         <div className="header-logo">
           <a href="/" className="is-logo">
-            <img
-              src="/logo.png"
-              alt="IOI home"
-            />
+            <img src="/logo.png" alt="IOI home" />
           </a>
         </div>
         <div className="header-nav">
           <span className="header-search search-open is-mobile">
-        
-        
-          <Avatar
-                src={props.userInfo.picture}
-                googleId={props.userInfo.googleId}
-                size="50"
-                round={true}
-                style={{
-                  display: "inline-block",
-                  marginBottom: 0,
-                  marginRight: 5,
-                }}
-              />
+            <Avatar
+              className="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-default MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-default css-mm42gz-MuiButtonBase-root-MuiFab-root"
+              src={props.userInfo.picture}
+              googleId={props.userInfo.googleId}
+              size="50"
+              round={true}
+              style={{
+                display: "inline-block",
+                marginBottom: 0,
+                marginRight: 5,
+              }}
+            />
           </span>
-       
+
           <nav>
             <ul>
-              <li className="is-dropdown">
-              <Avatar
-                src={props.userInfo.picture}
-                googleId={props.userInfo.googleId}
-                size="50"
-                round={true}
-                style={{
-                  display: "inline-block",
-                  marginBottom: 0,
-                  marginRight: 5,
-                }}
-              />
-                <ul>
-                  <li>
-                  <Link
-               
-                  
-                    to={`/author/${props.userInfo._id}`}
-                    state={
-                      {
-                        // id: props.id,
-                        // title: props.title,
-                        // content: props.content,
-                        // date: props.date,
-                        // postImg: props.postImg,
-                        // authorName: props.authorName,
-                        // authorImg: props.authorImg,
-                      }
-                    }
-                  >
-                   Profile
-                  </Link>
-                  </li>
-                  <li>
-                {props.userInfo.userType === "writer" ? <Link
-                     style={{paddingLeft: 22}}
-                    to={`/compose`}
-                    state={
-                      {
-                        // id: props.id,
-                        // title: props.title,
-                        // content: props.content,
-                        // date: props.date,
-                        // postImg: props.postImg,
-                        // authorName: props.authorName,
-                        // authorImg: props.authorImg,
-                      }
-                    }
-                  >
-                   Compose
-                  </Link> : ''}
-                  </li>
-                </ul>
-              </li>
+              {props.userInfo.userType === "writer" ? (
+                <Link style={{ paddingLeft: 22 }} to={`/compose`}>
+                  <Fab color="default" aria-label="edit">
+                    <EditIcon />
+                  </Fab>
+                </Link>
+              ) : (
+                ""
+              )}
+              <Link to={`/author/${props.userInfo._id}`}>
+                <li className="is-dropdown">
+                  <Avatar
+                    className="comment-pic"
+                    src={props.userInfo.picture}
+                    googleId={props.userInfo.googleId}
+                    size="55"
+                    round={true}
+                    style={{
+                      display: "inline-block",
+                      marginBottom: 0,
+                      marginRight: 5,
+                    }}
+                  />
+                </li>
+              </Link>
               {/* <li className="header-search search-open is-desktop global-button">
                 <span >
                   <svg
@@ -125,9 +95,16 @@ export default function Header(props: any) {
                 </li>
               ) : (
                 <li className="signup">
-                  <a className="global-button logout" href="#:" onClick={(e)=>{logOut()
-                   window.location.reload();
-                  }}>LogOut</a>
+                  <a
+                    className="global-button logout"
+                    href="#:"
+                    onClick={(e) => {
+                      logOut();
+                      window.location.reload();
+                    }}
+                  >
+                    LogOut
+                  </a>
                 </li>
               )}
             </ul>

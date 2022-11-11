@@ -46,7 +46,6 @@ mongoose
 
 //! - Creating the MongoDB Model
 
-
 //? - To be used after building react app and copying it to the public folder
 //****************************************************** */
 app.get("/", (req, res) => {
@@ -69,6 +68,13 @@ app.get("/api/", (req, res) => {
   });
 });
 
+app.get("/api/random", (req, res) => {
+  Blog.find((err, found) => {
+    //get random 3 elementts form array
+    let random = found.sort(() => Math.random() - 0.5).slice(0, 3);
+    !err ? res.send(random) : console.log(err);
+  });
+});
 
 app.post("/api/login", (req, res) => {
   const { googleId, imageUrl, email, name } = req.body.profileObj;
@@ -124,7 +130,7 @@ app.post("/api/blogpost", (req, res) => {
         authorImg,
         timestamp,
         authorGoogleId,
-        id
+        id,
       } = req.body;
       console.log(req.body);
 
@@ -166,8 +172,9 @@ app.get("/api/singlepost/:id", (req, res) => {
 });
 
 //? - Gets the Authors BlogPost from the MongoDB by ID
-app.get("/api/authorpost/:googleid", (req, res) => {
-  Blog.find({ authorGoogleId: req.params.googleid }, (err, found) => {
+app.get("/api/authorpost/:id", (req, res) => {
+  console.log(req.params.id);
+  Blog.find({ id: req.params.id }, (err, found) => {
     !err ? res.send(found) : console.log(err);
   });
 });
@@ -206,8 +213,14 @@ app.post("/api/comments", (req, res) => {
   }
 });
 app.get("/api/comments/:comment", (req, res) => {
+console.log(req.params.comment);
   Comments.find({ id: req.params.comment }, (err, found) => {
-    !err ? res.send(found) : console.log(err);
+    if (!err) {
+      res.send(found);
+      console.log(found);
+    } else {
+      console.log(err);
+    }
   });
 });
 

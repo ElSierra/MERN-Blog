@@ -1,3 +1,4 @@
+
 const userInfo = {
   email: "",
   googleId: "",
@@ -19,12 +20,28 @@ const blogInfo = {
   timestamp: "",
   id: ""
 };
+const commentInfo = {
+  name: "",
+  img: "",
+  comment: "",
+  date: "",
+  _id: "",
+};
 export interface users {
   email: string;
   googleId:string;
   name: string;
   picture: string;
   userType: string;
+  _id: string;
+}
+
+export interface comment {
+  
+  name: string;
+  img: string;
+  comment: string;
+  date: string;
   _id: string;
 }
 export interface blog{
@@ -38,5 +55,5 @@ export interface blog{
   timestamp: string;
   id: String
 }
-export { userInfo, blogInfo };
+export { userInfo, blogInfo, commentInfo };
 

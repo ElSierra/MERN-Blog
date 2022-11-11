@@ -1,7 +1,8 @@
 import React from "react";
 import FPost from "./posts/fPost";
 
-export default function FeaturedPost() {
+export default function FeaturedPost(props: any) {
+ 
   return (
     <div className="featured-section">
       <div className="global-padding">
@@ -32,7 +33,8 @@ export default function FeaturedPost() {
           </div>
         </div>
         <div className="featured-wrap">
-          <FPost />
+          
+          <FPost  />
           
         </div>
       </div>

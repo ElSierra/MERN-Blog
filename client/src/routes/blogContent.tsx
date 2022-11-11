@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import Comment from "../components/posts/blogComment";
+import CommentBox from "../components/posts/comments";
 import loadScript from "../jsImport";
-import { blog, blogInfo } from "../userInterface";
+import { blog, blogInfo, comment, commentInfo } from "../userInterface";
 
 //calculate minutes read based on words amount
 function calculateTimeToRead(content: string) {
@@ -15,8 +17,12 @@ function calculateTimeToRead(content: string) {
 
 export default function Blog() {
   const [blog, setBlog] = useState<blog>(blogInfo);
+  const [comment, setComment] = useState<[comment]>([commentInfo]);
   const { id } = useParams();
-
+  //reduce a string length
+  const reduceLength = (str: string, length: number) => {
+    return str.length > length ? str.substring(0, length) + "..." : str;
+  };
   useEffect(() => {
     console.log(id);
     loadScript();
@@ -27,11 +33,32 @@ export default function Blog() {
         setBlog(res.data);
       })
       .catch((err) => console.log(err));
+    axios
+      .get(`/api/comments/${id}`)
+      .then((res) => {
+        console.log(res.data);
+        setComment(res.data);
+      })
+      .catch((err) => console.log(err));
   }, [id]);
+  function refreshComment() {
+    console.log('refreshing');
+    axios
+      .get(`/api/comments/${id}`)
+      .then((res) => {
+        console.log(res.data);
+        setComment(res.data);
+      })
+      .catch((err) => console.log(err));
+  }
+ 
   const User = JSON.parse(
     localStorage.getItem("userInfo") ||
       '{"_id":"","name":"","email":"","picture":"","googleId":"","userType":""}'
   );
+  function replaceWithBr() {
+    return blog.content.replace(/\n/g, "<br />");
+  }
   return (
     <body className="post-template tag-design tag-idea tag-review">
       <div className="global-wrap">
@@ -53,7 +80,10 @@ export default function Blog() {
                         <h1 className="post-title global-title">
                           {blog.title}
                         </h1>
-                        <p className="">{blog.content}</p>
+
+                        <p className="post-excerpt global-excerpt">
+                          {reduceLength(blog.content, 100)}
+                        </p>
                       </div>
                       <div className="post-meta">
                         <div className="post-authors global-authors">
@@ -62,9 +92,7 @@ export default function Blog() {
                               <Link
                                 className="global-link"
                                 to={`/author/${blog.id}`}
-                              >
-                                Profile
-                              </Link>
+                              ></Link>
                               <img
                                 src={blog.authorImg}
                                 loading="lazy"
@@ -98,6 +126,7 @@ export default function Blog() {
                 </div>
               </div>{" "}
               <div className="post-content global-padding">
+                <p dangerouslySetInnerHTML={{ __html: replaceWithBr() }} />
                 <div className="post-share-section">
                   <small>Share this post</small>
                   <div className="post-share-wrap" style={{ right: "0%" }}>
@@ -171,311 +200,18 @@ export default function Blog() {
                 </div>{" "}
               </div>
             </article>
-            {/* <aside className="navigation-section global-padding">
-              <div className="navigation-wrap">
-                <a
-                  href="/your-voice-your-mind-your-story-your-vision/"
-                  className="navigation-next"
-                >
-                  <div className="navigation-image global-image global-radius">
-                    <img
-                      src="/content/images/size/w300/2022/03/photo-1635098996111-35c4a66b3b66.jpeg"
-                      loading="lazy"
-                      alt=""
-                    />{" "}
-                  </div>
-                  <div className="navigation-content">
-                    <small>Newer post</small>
-                    <br />
-                    <h3>Your voice, your mind, your story, your vision</h3>
-                  </div>
-                </a>
-                <a
-                  href="/i-work-best-when-my-space-is-filled-with-inspiration/"
-                  className="navigation-prev"
-                >
-                  <div className="navigation-content ">
-                    <small>Older post</small>
-                    <br />
-                    <h3>
-                      I work best when my space is filled with inspiration
-                    </h3>
-                  </div>
-                  <div className="navigation-image global-image global-radius">
-                    <img
-                      src="/content/images/size/w300/2022/03/photo-1593259037198-c720f4420d7f.jpeg"
-                      loading="lazy"
-                      alt=""
-                    />{" "}
-                  </div>
-                </a>
-              </div>
-            </aside>
-            <div className="comments-section global-padding"></div>
-            <div className="special-section global-padding">
-              <div className="special-subtitle global-subtitle">
-                <small className="global-subtitle-title">
-                  You might <span>also like</span>
-                </small>
-              </div>
-              <div className="special-wrap">
-                <article className="item is-special is-image">
-                  <div className="item-image global-image global-image-orientation global-radius">
-                    <a
-                      href="/being-unique-is-better-than-being-perfect/"
-                      className="global-link"
-                      aria-label="Being unique is better than being perfect"
-                    ></a>
-                    <img
-                      srcSet="/content/images/size/w300/2022/03/photo-1630261234684-d22b0892a809.jpeg 300w, 
-			 /content/images/size/w600/2022/03/photo-1630261234684-d22b0892a809.jpeg 600w"
-                      sizes="(max-width:480px) 300px, 600px"
-                      src="/content/images/size/w600/2022/03/photo-1630261234684-d22b0892a809.jpeg"
-                      loading="lazy"
-                      alt=""
-                    />
-                    <div className="item-authors global-authors">
-                      <div>
-                        <div className="item-author global-item-author is-image global-image">
-                          <a
-                            href="/author/damian/"
-                            className="global-link"
-                            title="Damian Erdman"
-                          ></a>
-                          <img
-                            src="/content/images/size/w300/2022/03/seth-doyle-wys9Jty8wNQ-unsplash.jpg"
-                            loading="lazy"
-                            alt="Damian Erdman"
-                          />{" "}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item-content">
-                    <h2 className="item-title">
-                      <a href="/being-unique-is-better-than-being-perfect/">
-                        Being unique is better than being perfect
-                      </a>
-                    </h2>
-                  </div>
-                </article>{" "}
-                <article className="item is-special is-image">
-                  <div className="item-image global-image global-image-orientation global-radius">
-                    <a
-                      href="/the-trick-to-getting-more-done-is-to-have-the-freedom-to-roam-around/"
-                      className="global-link"
-                      aria-label="The trick to getting more done is to have the freedom to roam around"
-                    ></a>
-                    <img
-                      srcSet="/content/images/size/w300/2022/03/photo-1631016800696-5ea8801b3c2a.jpeg 300w, 
-			 /content/images/size/w600/2022/03/photo-1631016800696-5ea8801b3c2a.jpeg 600w"
-                      sizes="(max-width:480px) 300px, 600px"
-                      src="/content/images/size/w600/2022/03/photo-1631016800696-5ea8801b3c2a.jpeg"
-                      loading="lazy"
-                      alt=""
-                    />
-                    <div className="item-authors global-authors">
-                      <div>
-                        <div className="item-author global-item-author is-image global-image">
-                          <a
-                            href="/author/breana/"
-                            className="global-link"
-                            title="Breana Flatley"
-                          ></a>
-                          <img
-                            src="/content/images/size/w300/2022/03/alison-erickson-Zt8IkNfhk54-unsplash.jpg"
-                            loading="lazy"
-                            alt="Breana Flatley"
-                          />{" "}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item-content">
-                    <h2 className="item-title">
-                      <a href="/the-trick-to-getting-more-done-is-to-have-the-freedom-to-roam-around/">
-                        The trick to getting more done is to have the freedom to
-                        roam around
-                      </a>
-                    </h2>
-                  </div>
-                </article>{" "}
-                <article className="item is-special is-image">
-                  <div className="item-image global-image global-image-orientation global-radius">
-                    <a
-                      href="/products-is-a-visual-art-and-speak-for-themselves/"
-                      className="global-link"
-                      aria-label="Products is a visual art, and speak for themselves"
-                    ></a>
-                    <img
-                      srcSet="/content/images/size/w300/2022/03/photo-1595950653106-6c9ebd614d3a.jpeg 300w, 
-			 /content/images/size/w600/2022/03/photo-1595950653106-6c9ebd614d3a.jpeg 600w"
-                      sizes="(max-width:480px) 300px, 600px"
-                      src="/content/images/size/w600/2022/03/photo-1595950653106-6c9ebd614d3a.jpeg"
-                      loading="lazy"
-                      alt=""
-                    />
-                    <div className="item-authors global-authors">
-                      <div>
-                        <div className="item-author global-item-author is-image global-image">
-                          <a
-                            href="/author/nichole/"
-                            className="global-link"
-                            title="Nichole Becker"
-                          ></a>
-                          <img
-                            src="/content/images/size/w300/2022/03/joshua-oyebanji-kMC1v6rBHMI-unsplash-2.jpg"
-                            loading="lazy"
-                            alt="Nichole Becker"
-                          />{" "}
-                        </div>
-                        <div className="item-author global-item-author is-image global-image">
-                          <a
-                            href="/author/daryl/"
-                            className="global-link"
-                            title="Daryl Wehner"
-                          ></a>
-                          <img
-                            src="/content/images/size/w300/2022/03/kazi-mizan-ItjRqGiei5g-unsplash.jpg"
-                            loading="lazy"
-                            alt="Daryl Wehner"
-                          />{" "}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item-content">
-                    <h2 className="item-title">
-                      <a href="/products-is-a-visual-art-and-speak-for-themselves/">
-                        Products is a visual art, and speak for themselves
-                      </a>
-                    </h2>
-                  </div>
-                </article>{" "}
-                <article className="item is-special is-image">
-                  <div className="item-image global-image global-image-orientation global-radius">
-                    <a
-                      href="/the-secret-is-to-work-less-as-individuals-and-more-as-a-team/"
-                      className="global-link"
-                      aria-label="The secret is to work less as individuals and more as a team"
-                    ></a>
-                    <img
-                      srcSet="/content/images/size/w300/2022/03/photo-1619066400673-c973159d4e0f.jpeg 300w, 
-			 /content/images/size/w600/2022/03/photo-1619066400673-c973159d4e0f.jpeg 600w"
-                      sizes="(max-width:480px) 300px, 600px"
-                      src="/content/images/size/w600/2022/03/photo-1619066400673-c973159d4e0f.jpeg"
-                      loading="lazy"
-                      alt=""
-                    />
-                    <div className="item-authors global-authors">
-                      <div>
-                        <div className="item-author global-item-author is-image global-image">
-                          <a
-                            href="/author/daryl/"
-                            className="global-link"
-                            title="Daryl Wehner"
-                          ></a>
-                          <img
-                            src="/content/images/size/w300/2022/03/kazi-mizan-ItjRqGiei5g-unsplash.jpg"
-                            loading="lazy"
-                            alt="Daryl Wehner"
-                          />{" "}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item-content">
-                    <h2 className="item-title">
-                      <a href="/the-secret-is-to-work-less-as-individuals-and-more-as-a-team/">
-                        The secret is to work less as individuals and more as a
-                        team
-                      </a>
-                    </h2>
-                  </div>
-                </article>{" "}
-                <article className="item is-special is-image">
-                  <div className="item-image global-image global-image-orientation global-radius">
-                    <a
-                      href="/brand-is-just-a-perception-and-will-match-reality-over-time/"
-                      className="global-link"
-                      aria-label="Brand is just a perception, and will match reality over time"
-                    ></a>
-                    <img
-                      srcSet="/content/images/size/w300/2022/03/photo-1595683213102-db302aa70c0f.jpeg 300w, 
-			 /content/images/size/w600/2022/03/photo-1595683213102-db302aa70c0f.jpeg 600w"
-                      sizes="(max-width:480px) 300px, 600px"
-                      src="/content/images/size/w600/2022/03/photo-1595683213102-db302aa70c0f.jpeg"
-                      loading="lazy"
-                      alt=""
-                    />
-                    <div className="item-authors global-authors">
-                      <div>
-                        <div className="item-author global-item-author is-image global-image">
-                          <a
-                            href="/author/breana/"
-                            className="global-link"
-                            title="Breana Flatley"
-                          ></a>
-                          <img
-                            src="/content/images/size/w300/2022/03/alison-erickson-Zt8IkNfhk54-unsplash.jpg"
-                            loading="lazy"
-                            alt="Breana Flatley"
-                          />{" "}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item-content">
-                    <h2 className="item-title">
-                      <a href="/brand-is-just-a-perception-and-will-match-reality-over-time/">
-                        Brand is just a perception, and will match reality over
-                        time
-                      </a>
-                    </h2>
-                  </div>
-                </article>{" "}
-                <article className="item is-special is-image">
-                  <div className="item-image global-image global-image-orientation global-radius">
-                    <a
-                      href="/perfection-has-to-do-with-the-end-product/"
-                      className="global-link"
-                      aria-label="Perfection has to do with the end product"
-                    ></a>
-                    <img
-                      srcSet="/content/images/size/w300/2022/03/photo-1638675039591-c7b3d1bbbd74.jpeg 300w, 
-			 /content/images/size/w600/2022/03/photo-1638675039591-c7b3d1bbbd74.jpeg 600w"
-                      sizes="(max-width:480px) 300px, 600px"
-                      src="/content/images/size/w600/2022/03/photo-1638675039591-c7b3d1bbbd74.jpeg"
-                      loading="lazy"
-                      alt=""
-                    />
-                    <div className="item-authors global-authors">
-                      <div>
-                        <div className="item-author global-item-author is-image global-image">
-                          <a
-                            href="/author/nichole/"
-                            className="global-link"
-                            title="Nichole Becker"
-                          ></a>
-                          <img
-                            src="/content/images/size/w300/2022/03/joshua-oyebanji-kMC1v6rBHMI-unsplash-2.jpg"
-                            loading="lazy"
-                            alt="Nichole Becker"
-                          />{" "}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item-content">
-                    <h2 className="item-title">
-                      <a href="/perfection-has-to-do-with-the-end-product/">
-                        Perfection has to do with the end product
-                      </a>
-                    </h2>
-                  </div>
-                </article>{" "}
-              </div>
-            </div> */}
+
+            {comment.map((comment) => {
+              
+              return <CommentBox key = {comment._id} comment = {comment}/>;
+            })}
+
+            <div
+              className="blogPost"
+              style={{ maxWidth: "fit-content", margin: "5%" }}
+            >
+              <Comment userInfo={User} blogId = {id} refreshComment = {refreshComment}/>
+            </div>
           </main>
           <Footer />
         </div>

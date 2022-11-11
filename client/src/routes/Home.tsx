@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import Body from "../components/Body";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import loadScript from "../jsImport";
+import loadScript, { loadNewScript } from "../jsImport";
 
 export default function Home() {
   const [userInfo, setuseInfo] = useState({});
   useEffect(() => {
-    loadScript();
+    loadScript()
     setuseInfo(JSON.parse((localStorage.getItem("userInfo"))|| '{"_id":"","name":"","email":"","picture":"","googleId":"","userType":""}'))
   }, []);
 

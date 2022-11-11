@@ -9,6 +9,7 @@ import {
   Route,
   useNavigate,
 } from "react-router-dom";
+import ScrollToTop from "./scroll";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -16,7 +17,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <Router>
     <React.StrictMode>
+    <ScrollToTop />
       <App />
+      
     </React.StrictMode>
   </Router>
 );
