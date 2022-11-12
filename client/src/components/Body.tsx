@@ -56,8 +56,8 @@ function BodyComp(props: any) {
             <div className="global-padding">
               <div className="featured-subtitle global-subtitle">
                 <small className="global-subtitle-title">
-                  Get started with our
-                  <span>best stories</span>
+                  Random
+                  <span> Stories</span>
                 </small>
                 <div className="featured-navigation">
                   <button
