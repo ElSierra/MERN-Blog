@@ -51,10 +51,20 @@ mongoose
 app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
-app.get("/blogpost/:id", (req, res) => {
+app.get("/blog/:id", (req, res) => {
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
 app.get("/compose", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "public", "index.html"));
+});
+
+app.get("/profile", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "public", "index.html"));
+});
+app.get("/author:id", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "public", "index.html"));
+});
+app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
 //****************************************************** */
