@@ -57,11 +57,15 @@ app.get("/blog/:id", (req, res) => {
 app.get("/compose", (req, res) => {
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
+app.use((req, res, next) => {
+  res.status(404).sendFile(
+    path.resolve(__dirname, "public", "index.html"))
+})
 
 app.get("/profile", (req, res) => {
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
-app.get("/author:id", (req, res) => {
+app.get("/author/:id", (req, res) => {
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
 
