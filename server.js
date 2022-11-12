@@ -55,12 +55,13 @@ app.get("/blog/:id", (req, res) => {
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
 app.get("/compose", (req, res) => {
+  res.send('error');
+});
+
+//create an eror 404 page
+app.get("/404", (req, res) => {
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
-app.use((req, res, next) => {
-  res.status(404).sendFile(
-    path.resolve(__dirname, "public", "index.html"))
-})
 
 app.get("/profile", (req, res) => {
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
@@ -88,7 +89,6 @@ app.get("/api/random", (req, res) => {
     !err ? res.send(random) : console.log(err);
   });
 });
-
 
 //? - Creates a new user or logins in the user and verifies the token
 app.post("/api/login", (req, res) => {
@@ -233,7 +233,7 @@ app.post("/api/comments", (req, res) => {
 
 //? - Gets the Comments from the MongoDB per post by ID
 app.get("/api/comments/:comment", (req, res) => {
-//console.log(req.params.comment);
+  //console.log(req.params.comment);
   Comments.find({ id: req.params.comment }, (err, found) => {
     if (!err) {
       res.send(found);
@@ -248,15 +248,15 @@ app.get("/api/comments/:comment", (req, res) => {
 
 app.get("/api/mycomments/:comment", (req, res) => {
   //console.log(req.params.comment);
-    Comments.find({ googleId: req.params.comment }, (err, found) => {
-      if (!err) {
-        res.send(found);
-        //console.log(found);
-      } else {
-        console.log(err);
-      }
-    });
+  Comments.find({ googleId: req.params.comment }, (err, found) => {
+    if (!err) {
+      res.send(found);
+      //console.log(found);
+    } else {
+      console.log(err);
+    }
   });
+});
 
 //? - Deletes the Posts from the MongoDB per user ID
 app.delete("/api/posts/:id", (req, res) => {
@@ -271,7 +271,7 @@ app.delete("/api/posts/:id", (req, res) => {
 });
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
