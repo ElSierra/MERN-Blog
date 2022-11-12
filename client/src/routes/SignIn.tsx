@@ -66,21 +66,21 @@ export default function SignIn() {
         <div
           className="custom-image global-bg-image"
           style={{
-            backgroundImage: `url(https://images.unsplash.com/photo-1548081087-a8a3bc4ff088?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDE0OHx8dGV4dHVyZXxlbnwwfHx8fDE2NDY3NzQ2Njg&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000)`,
+            backgroundImage: `url('/daughter.png')`,
           }}
         ></div>
         <div className="custom-container">
           <div className="custom-logo-wrap">
             <div className="custom-logo">
-              <a href="https://basho.fueko.net" className="is-logo">
+              <a href="/" className="is-logo">
                 <img
-                  src="https://basho.fueko.net/content/images/2022/01/basho.svg"
-                  alt="Basho home"
+                  src="/logo.png"
+                  alt="IOI BLOG"
                 />
               </a>
             </div>
           </div>
-          <div className="custom-content">
+          <div className="custom-content"  >
             <form
               data-members-form="signin"
               style={{ display: !isSignedIn ? "inline-block" : "none" }}
@@ -138,7 +138,7 @@ export default function SignIn() {
                   className="alert-loading global-alert"
                   style={{ display: isSignedIn ? "inline-block" : "none" }}
                 >
-                  Successfully Logged In, Redirect You to Home Page
+                  Successfully Logged In, Go to Home Page
                 </small>
               </div>
 
@@ -147,7 +147,7 @@ export default function SignIn() {
                   className="alert-error global-alert"
                   style={{ display: !isSignedIn ? "inline-block" : "none" }}
                 >
-                  There was an error sending the email
+                 Retry
                 </small>
               </div>
             </form>

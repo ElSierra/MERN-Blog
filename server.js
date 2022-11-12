@@ -51,15 +51,14 @@ mongoose
 app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
-app.get("/blog/:id", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "public", "index.html"));
-});
+
 app.get("/compose", (req, res) => {
   res.send('error');
 });
 
 //create an eror 404 page
-app.get("/404", (req, res) => {
+app.get("/:id", (req, res) => {
+  console.log(req.params);
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
 
