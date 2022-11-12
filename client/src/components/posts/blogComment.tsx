@@ -19,6 +19,7 @@ function Comment(props: any) {
         comment: comment,
         name: props.userInfo.name,
         img: props.userInfo.picture,
+        googleId: props.userInfo.googleId,
         date: date,
 
         // env: process.env.REACT_APP_API_KEY,

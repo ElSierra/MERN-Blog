@@ -32,6 +32,7 @@ const userSchema = {
     name: String,
     img: String,
     comment: String,
+    googleId: String,
     id: String,
     date: String,
   };

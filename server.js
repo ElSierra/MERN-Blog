@@ -31,7 +31,7 @@ app.use(cors());
 app.use(express.static(__dirname + "/public"));
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -68,6 +68,7 @@ app.get("/api/", (req, res) => {
   });
 });
 
+//? - Get Random BlogPosts
 app.get("/api/random", (req, res) => {
   Blog.find((err, found) => {
     //get random 3 elementts form array
@@ -76,6 +77,8 @@ app.get("/api/random", (req, res) => {
   });
 });
 
+
+//? - Creates a new user or logins in the user and verifies the token
 app.post("/api/login", (req, res) => {
   const { googleId, imageUrl, email, name } = req.body.profileObj;
   const { userType } = req.body;
@@ -173,17 +176,19 @@ app.get("/api/singlepost/:id", (req, res) => {
 
 //? - Gets the Authors BlogPost from the MongoDB by ID
 app.get("/api/authorpost/:id", (req, res) => {
-  console.log(req.params.id);
+  //console.log(req.params.id);
   Blog.find({ id: req.params.id }, (err, found) => {
     !err ? res.send(found) : console.log(err);
   });
 });
-
+//? - Gets Lists of Authors from the MongoDB
 app.get("/api/author", (req, res) => {
   Users.find({ userType: "writer" }, (err, found) => {
     !err ? res.send(found) : console.log(err);
   });
 });
+
+//? - Gets the  Author from the MongoDB by ID
 app.get("/api/author/:id", (req, res) => {
   Users.findOne({ _id: req.params.id }, (err, found) => {
     !err ? res.send(found) : console.log(err);
@@ -192,13 +197,14 @@ app.get("/api/author/:id", (req, res) => {
 
 //? - Posts the Comment to the MongoDB
 app.post("/api/comments", (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   const comment = Comments({
     name: req.body.name,
     img: req.body.img,
     comment: req.body.comment,
     id: req.body.id,
     date: req.body.date,
+    googleId: req.body.googleId,
   });
   if (req.body.env === process.env.TOKENFORBLOG) {
     comment.save((err) => {
@@ -212,12 +218,40 @@ app.post("/api/comments", (req, res) => {
     res.send({ error: 501, msg: "Unauthorized access" });
   }
 });
+
+//? - Gets the Comments from the MongoDB per post by ID
 app.get("/api/comments/:comment", (req, res) => {
-console.log(req.params.comment);
+//console.log(req.params.comment);
   Comments.find({ id: req.params.comment }, (err, found) => {
     if (!err) {
       res.send(found);
       console.log(found);
+    } else {
+      console.log(err);
+    }
+  });
+});
+
+//? - Gets the Comments from the MongoDB per user ID
+
+app.get("/api/mycomments/:comment", (req, res) => {
+  //console.log(req.params.comment);
+    Comments.find({ googleId: req.params.comment }, (err, found) => {
+      if (!err) {
+        res.send(found);
+        //console.log(found);
+      } else {
+        console.log(err);
+      }
+    });
+  });
+
+//? - Deletes the Posts from the MongoDB per user ID
+app.delete("/api/posts/:id", (req, res) => {
+  Blog.deleteOne({ _id: req.params.id }, (err) => {
+    if (!err) {
+      console.log(`Successfully deleted ${req.params.id}`);
+      res.send("Successfully deleted");
     } else {
       console.log(err);
     }

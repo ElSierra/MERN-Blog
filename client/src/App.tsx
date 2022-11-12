@@ -6,6 +6,7 @@ import {
   useNavigate,
   Link,
 } from "react-router-dom";
+import Profile from "./routes/Profile";
 import logo from "./logo.svg";
 import Author from "./routes/Author";
 import Blog from "./routes/blogContent";
@@ -19,6 +20,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="signin" element={<SignIn />} />
       <Route path="author/:id" element={<Author />} />
+      <Route path="profile" element={<Profile />} />
       <Route path="blog/:id" element={<Blog />} />
       <Route path="compose" element={<Compose />} />
     </Routes>

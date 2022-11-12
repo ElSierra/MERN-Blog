@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
-export default function PBlog(props: any) {
+export default function Blog(props: any) {
   return (
     <article className="item is-loop is-image">
       <div className="item-image global-image global-image-orientation global-radius">
@@ -25,8 +26,11 @@ export default function PBlog(props: any) {
           <div>
             <div className="item-author global-item-author is-image global-image">
               <Link
+                onClick={() => {
+                  props.handleDelete(props.content._id);
+                }}
                 className="global-link"
-                to={`/author/${props.content.id}`}
+                to={`#`}
                 state={
                   {
                     // id: props.id,
@@ -38,12 +42,9 @@ export default function PBlog(props: any) {
                     // authorImg: props.authorImg,
                   }
                 }
-              >
-              
-              </Link>
-           
+              ></Link>
               <img
-                src={props.content.authorImg}
+                src={"/assets/img/del.png"}
                 loading="lazy"
                 alt={props.content.authorName}
               />{" "}

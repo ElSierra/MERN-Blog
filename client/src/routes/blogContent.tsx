@@ -40,7 +40,7 @@ export default function Blog() {
         setComment(res.data);
       })
       .catch((err) => console.log(err));
-  }, [id]);
+  }, );
   function refreshComment() {
     console.log('refreshing');
     axios

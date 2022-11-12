@@ -20,7 +20,7 @@ export default function Header(props: any) {
         </div>
         <div className="header-nav">
           <span className="header-search search-open is-mobile">
-          <Link to={`/author/${props.userInfo._id}`}>
+          <Link to={`/profile/`}>
             <Avatar
               className="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-default MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-default css-mm42gz-MuiButtonBase-root-MuiFab-root"
               src={props.userInfo.picture}
@@ -46,7 +46,7 @@ export default function Header(props: any) {
               ) : (
                 ""
               )}
-              <Link to={`/author/${props.userInfo._id}`}>
+              <Link to={`/profile/`}>
                 <li className="is-dropdown">
                   <Avatar
                     className="comment-pic"

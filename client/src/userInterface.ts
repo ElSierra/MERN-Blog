@@ -1,4 +1,3 @@
-
 const userInfo = {
   email: "",
   googleId: "",
@@ -18,7 +17,7 @@ const blogInfo = {
   authorImg: "",
   authorGoogleId: "",
   timestamp: "",
-  id: ""
+  id: "",
 };
 const commentInfo = {
   name: "",
@@ -26,10 +25,11 @@ const commentInfo = {
   comment: "",
   date: "",
   _id: "",
+  googleId: "",
 };
 export interface users {
   email: string;
-  googleId:string;
+  googleId: string;
   name: string;
   picture: string;
   userType: string;
@@ -37,14 +37,14 @@ export interface users {
 }
 
 export interface comment {
-  
   name: string;
   img: string;
   comment: string;
   date: string;
   _id: string;
+  googleId: String;
 }
-export interface blog{
+export interface blog {
   title: string;
   content: string;
   date: string;
@@ -53,7 +53,6 @@ export interface blog{
   authorImg: string;
   authorGoogleId: string;
   timestamp: string;
-  id: String
+  id: String;
 }
 export { userInfo, blogInfo, commentInfo };
-

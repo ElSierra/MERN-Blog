@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import Fab from "@mui/material/Fab";
 import LogoutIcon from "@mui/icons-material/Logout";
-import Logout from "@mui/icons-material/Logout";
+
+import Avatar from "react-avatar";
 
 export default function Welcome(props: any) {
   const logOut = () => {
@@ -48,6 +49,25 @@ export default function Welcome(props: any) {
           ) : (
             ""
           )}
+           {props.userInfo.name !== "" ? (
+            <div className="writer" style={{ paddingLeft: "10px" }}>
+              <Link to ={`/profile/`}>
+             <Avatar
+                    className="comment-pic"
+                    src={props.userInfo.picture}
+                    googleId={props.userInfo.googleId}
+                    size="55"
+                    round={true}
+                    style={{
+                      display: "inline-block",
+                      marginBottom: 0,
+                      marginRight: 5,
+                    }}
+                  /></Link>
+            </div>
+          ) : (
+            ""
+          )}
           <form data-members-form="subscribe" className="subscribe-form">
             {props.userInfo.name === "" ? (
               <Link to={"/signin"} className="global-button">
@@ -62,18 +82,7 @@ export default function Welcome(props: any) {
               ? "Signup as either a writer or reader"
               : `You're a ${props.userInfo.userType}`}
           </div>
-          <div className="subscribe-alert">
-            <small className="alert-loading global-alert">
-              Processing your application
-            </small>
-            <small className="alert-success global-alert">
-              Please check your inbox and click the link to confirm your
-              subscription.
-            </small>
-            <small className="alert-error global-alert">
-              There was an error sending the email
-            </small>
-          </div>
+          
         </div>
       </div>
     </div>
