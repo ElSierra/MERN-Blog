@@ -14,6 +14,7 @@ import Compose from "./routes/Compose";
 import Home from "./routes/Home";
 
 import SignIn from "./routes/SignIn";
+import NotFound from "./routes/NotFound";
 function App() {
   return (
     <Routes>
@@ -23,6 +24,7 @@ function App() {
       <Route path="profile" element={<Profile />} />
       <Route path="blog/:id" element={<Blog />} />
       <Route path="compose" element={<Compose />} />
+      <Route path='*' element={<NotFound />}/>
     </Routes>
   );
 }
