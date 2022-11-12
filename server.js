@@ -56,11 +56,6 @@ app.get("/compose", (req, res) => {
   res.send('error');
 });
 
-//create an eror 404 page
-app.get("/:id", (req, res) => {
-  console.log(req.params);
-  res.sendFile(path.resolve(__dirname, "public", "index.html"));
-});
 
 app.get("/profile", (req, res) => {
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
