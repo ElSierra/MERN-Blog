@@ -61,6 +61,8 @@ export default function Blog() {
   function replaceWithBr() {
     return blog.content.replace(/\n/g, "<br />");
   }
+
+  
   return (
     <body className="post-template tag-design tag-idea tag-review">
       <div className="global-wrap">
