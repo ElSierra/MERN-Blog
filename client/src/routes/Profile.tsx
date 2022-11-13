@@ -31,7 +31,7 @@ export default function Profile() {
     document.title = `Your Profile` || "";
     loadScript();
     axios
-      .get(`/api/authorProfile/${loggedIn._id}`)
+      .get(`/api/author/${loggedIn._id}`)
       .then((res) => {
         console.log(res.data);
         setUserBio(res.data);

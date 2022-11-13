@@ -20,7 +20,7 @@ export default function Author() {
   useEffect(() => {
     loadScript();
     axios
-      .get(`/api/authorProfile/${id}`)
+      .get(`/api/author/${id}`)
       .then((res) => {
         console.log(`author info ${res.data}`);
         setUserBio(res.data);

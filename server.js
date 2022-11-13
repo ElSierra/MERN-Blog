@@ -214,7 +214,7 @@ app.get("/api/author", (req, res) => {
 });
 
 //? - Gets the  Author from the MongoDB by ID
-app.get("/api/authorProfile/:id", (req, res) => {
+app.get("/api/author/:id", (req, res) => {
   //console.log(req.params.id);
   Users.findOne({ _id: req.params.id }, (err, found) => {
     !err ? res.send(found) : console.log(err);
@@ -285,7 +285,7 @@ app.delete("/api/posts/:id", (req, res) => {
 });
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
