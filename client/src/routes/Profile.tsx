@@ -9,11 +9,12 @@ import {
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import loadScript from "../jsImport";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Footer from "../components/Footer";
 import Blog from "../components/posts/profilePost";
 import CommentBox from "../components/posts/comments";
+import NotFound from "./NotFound";
 
 export default function Profile() {
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -27,7 +28,6 @@ export default function Profile() {
   );
 
   useEffect(() => {
-
     document.title = `Your Profile` || "";
     loadScript();
     axios
@@ -61,59 +61,97 @@ export default function Profile() {
       })
       .catch((err) => console.log(err));
   }
-  return (
-    <body className="author-template author-liza">
-      <div className="global-wrap">
-        <div className="global-content">
-          <Header userInfo={loggedIn} />
-          <main className="global-main">
-            <div className="archive-section is-image">
-              <div className="archive-image global-image">
-                <img src={userBio.picture} loading="lazy" alt={userBio.name} />
-              </div>
-              <h1 className="archive-title global-title">{userBio.name}</h1>
+  if (loggedIn._id !== "") {
+    return (
+      <body className="author-template author-liza">
+        <div className="global-wrap">
+          <div className="global-content">
+            <Header userInfo={loggedIn} />
+            <main className="global-main">
+              <div className="archive-section is-image">
+                <div className="archive-image global-image">
+                  <img
+                    src={userBio.picture}
+                    loading="lazy"
+                    alt={userBio.name}
+                  />
+                </div>
+                <h1 className="archive-title global-title">{userBio.name}</h1>
 
-              <p className="">{userBio.email}</p>
-            </div>
-            <div className="loop-section global-padding">
-              <div className="global-subtitle">
-                <small className="global-subtitle-title">
-                  Your 
-                  <span> latest posts</span>
-                </small>
-                {/* {(loggedIn._id === id && loggedIn.userType === 'writer')? <small className="global-subtitle-title">
+                <p className="">{userBio.email}</p>
+              </div>
+              <div className="loop-section global-padding">
+                <div className="global-subtitle">
+                  <small className="global-subtitle-title">
+                    Your
+                    <span> latest posts</span>
+                  </small>
+                  {/* {(loggedIn._id === id && loggedIn.userType === 'writer')? <small className="global-subtitle-title">
                   Check out
                   <span>latest posts</span>
                 </small>: 'wwwww'} */}
+                </div>
+                <div className="loop-wrap">
+                  {authorBlog.map((content) => {
+                    return (
+                      <Blog
+                        content={content}
+                        key={content._id}
+                        handleDelete={handleDelete}
+                      />
+                    );
+                  })}
+                </div>
               </div>
-              <div className="loop-wrap">
-                {authorBlog.map((content) => {
-                  return <Blog content={content} key = {content._id} handleDelete={handleDelete} />;
-                })}
-              </div>
-            </div>
-            <div className="loop-section global-padding">
-              <div className="global-subtitle">
-                <small className="global-subtitle-title">
-                  Your
-                  <span> Comments</span>
-                </small>
-                {/* {(loggedIn._id === id && loggedIn.userType === 'writer')? <small className="global-subtitle-title">
+              <div className="loop-section global-padding">
+                <div className="global-subtitle">
+                  <small className="global-subtitle-title">
+                    Your
+                    <span> Comments</span>
+                  </small>
+                  {/* {(loggedIn._id === id && loggedIn.userType === 'writer')? <small className="global-subtitle-title">
                   Check out
                   <span>latest posts</span>
                 </small>: 'wwwww'} */}
+                </div>
+                <div className="loop-wrap">
+                  {comment.map((comment) => {
+                    return <CommentBox key={comment._id} comment={comment} />;
+                  })}
+                </div>
               </div>
-              <div className="loop-wrap">
-                {comment.map((comment) => {
-                  return <CommentBox key={comment._id} comment={comment} />;
-                })}
-              </div>
-            </div>
-            <div className="pagination-section"></div>
-          </main>
-          <Footer />
+              <div className="pagination-section"></div>
+            </main>
+            <Footer />
+          </div>
         </div>
+      </body>
+    );
+  } else {
+    return ( <body className="author-template author-liza">
+    <div className="global-wrap">
+      <div className="global-content">
+        <Header userInfo={loggedIn} />
+        <main className="global-main">
+          <div className="archive-section is-image">
+            <div className="archive-image global-image">
+              <img
+                src="/non.png"
+                loading="lazy"
+                alt="Not Signed In"
+              />
+            </div>
+            <h1 className="archive-title global-title">{userBio.name}</h1>
+
+            <Link to={"/signin"} className="global-button">
+                Signup/Login
+              </Link>
+          </div>
+       
+        </main>
+       
       </div>
-    </body>
-  );
+    </div>
+  </body>);
+  }
 }

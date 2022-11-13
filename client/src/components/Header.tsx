@@ -46,7 +46,7 @@ export default function Header(props: any) {
               ) : (
                 ""
               )}
-              <Link to={`/profile/`}>
+              {props.userInfo._id !== "" ?<Link to={`/profile/`}>
                 <li className="is-dropdown">
                   <Avatar
                     className="comment-pic"
@@ -61,7 +61,22 @@ export default function Header(props: any) {
                     }}
                   />
                 </li>
-              </Link>
+              </Link>: <Link to={`/signin/`}>
+                <li className="is-dropdown">
+                  <Avatar
+                    className="comment-pic"
+                    src="/non.png"
+                    googleId={props.userInfo.googleId}
+                    size="55"
+                    round={true}
+                    style={{
+                      display: "inline-block",
+                      marginBottom: 0,
+                      marginRight: 5,
+                    }}
+                  />
+                </li>
+              </Link> }
               {/* <li className="header-search search-open is-desktop global-button">
                 <span >
                   <svg
