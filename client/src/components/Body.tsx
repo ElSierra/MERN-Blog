@@ -112,7 +112,7 @@ function BodyComp(props: any) {
         </div>
         <div className="loop-wrap">
           {blog.slice(0, addMore).map((posts) => {
-            return <Blog content={posts} />;
+            return <Blog content={posts} key={posts._id} />;
           })}
         </div>
       </div>

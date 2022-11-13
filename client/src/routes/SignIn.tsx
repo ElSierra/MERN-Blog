@@ -24,6 +24,7 @@ export default function SignIn() {
     gapi.load("client:auth2", initClient);
   });
   const onSuccess = (res: any) => {
+    console.log(res);
     setProfile(res.profileObj);
     const signInInfo = {
         ...res,userType: alignment,

@@ -13,6 +13,7 @@ const path = require("path");
 
 const { verify } = require("./googleAuth");
 const { Blog, Users, Comments } = require("./model");
+const axios = require("axios");
 
 /* 1- Create the .env File with the following content:
 MONGO_URI=your_mongo_uri
@@ -53,9 +54,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/compose", (req, res) => {
-  res.send('error');
+  res.send("error");
 });
-
 
 app.get("/profile", (req, res) => {
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
@@ -88,39 +88,53 @@ app.get("/api/random", (req, res) => {
 app.post("/api/login", (req, res) => {
   const { googleId, imageUrl, email, name } = req.body.profileObj;
   const { userType } = req.body;
-  const user = new Users({
-    name: name,
-    email: email,
-    picture: imageUrl,
-    googleId: googleId,
-    userType: userType,
-  });
+  const URL = ``;
 
-  // console.log(req.body);
-  verify(req.body.tokenObj.id_token)
-    .then((e) => {
-      if (e.email === email) {
-        loginSign();
-      } else {
-        res.send({ error: "Email doesn't match" });
+  axios
+    .get(
+      `https://people.googleapis.com/v1/people/${googleId}?personFields=names%2Cphotos&key=${process.env.API_KEY}`
+    )
+    .then((response) => {
+      //remove the last four strings from the image url
+      let image = response.data.photos[0].url;
+      image = image.slice(0, -4);
+      const user = new Users({
+        name: name,
+        email: email,
+        picture: image + "s400",
+        googleId: googleId,
+        userType: userType,
+      });
+
+      // console.log(req.body);
+      verify(req.body.tokenObj.id_token)
+        .then((e) => {
+          if (e.email === email) {
+            loginSign();
+          } else {
+            res.send({ error: "Email doesn't match" });
+          }
+        })
+        .catch(console.error);
+
+      function loginSign() {
+        Users.findOne({ googleId: googleId }, (err, found) => {
+          if (!err) {
+            if (!found) {
+              user.save();
+              res.send(user);
+            } else {
+              res.send(found);
+            }
+          } else {
+            console.log(err);
+          }
+        });
       }
     })
-    .catch(console.error);
-
-  function loginSign() {
-    Users.findOne({ googleId: googleId }, (err, found) => {
-      if (!err) {
-        if (!found) {
-          user.save();
-          res.send(user);
-        } else {
-          res.send(found);
-        }
-      } else {
-        console.log(err);
-      }
+    .catch((error) => {
+      console.log(error);
     });
-  }
 });
 
 //? - Uploads  the BlogPost to the MongoDB
@@ -190,12 +204,14 @@ app.get("/api/authorpost/:id", (req, res) => {
 //? - Gets Lists of Authors from the MongoDB
 app.get("/api/author", (req, res) => {
   Users.find({ userType: "writer" }, (err, found) => {
+    //console.log(found);
     !err ? res.send(found) : console.log(err);
   });
 });
 
 //? - Gets the  Author from the MongoDB by ID
-app.get("/api/author/:id", (req, res) => {
+app.get("/api/authorProfile/:id", (req, res) => {
+  //console.log(req.params.id);
   Users.findOne({ _id: req.params.id }, (err, found) => {
     !err ? res.send(found) : console.log(err);
   });
@@ -265,7 +281,7 @@ app.delete("/api/posts/:id", (req, res) => {
 });
 
 // set port, listen for requests
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

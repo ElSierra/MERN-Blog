@@ -27,9 +27,11 @@ export default function Profile() {
   );
 
   useEffect(() => {
+
+    document.title = `Your Profile` || "";
     loadScript();
     axios
-      .get(`/api/author/${loggedIn._id}`)
+      .get(`/api/authorProfile/${loggedIn._id}`)
       .then((res) => {
         console.log(res.data);
         setUserBio(res.data);
@@ -76,8 +78,8 @@ export default function Profile() {
             <div className="loop-section global-padding">
               <div className="global-subtitle">
                 <small className="global-subtitle-title">
-                  Check out {loggedIn._id === id ? "Your" : "Their"}{" "}
-                  <span>latest posts</span>
+                  Your 
+                  <span> latest posts</span>
                 </small>
                 {/* {(loggedIn._id === id && loggedIn.userType === 'writer')? <small className="global-subtitle-title">
                   Check out
@@ -86,15 +88,15 @@ export default function Profile() {
               </div>
               <div className="loop-wrap">
                 {authorBlog.map((content) => {
-                  return <Blog content={content} handleDelete={handleDelete} />;
+                  return <Blog content={content} key = {content._id} handleDelete={handleDelete} />;
                 })}
               </div>
             </div>
             <div className="loop-section global-padding">
               <div className="global-subtitle">
                 <small className="global-subtitle-title">
-                  Check out {loggedIn._id === id ? "Your" : "Their"}{" "}
-                  <span>Comments</span>
+                  Your
+                  <span> Comments</span>
                 </small>
                 {/* {(loggedIn._id === id && loggedIn.userType === 'writer')? <small className="global-subtitle-title">
                   Check out

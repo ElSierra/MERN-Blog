@@ -18,6 +18,7 @@ const blogInfo = {
   authorGoogleId: "",
   timestamp: "",
   id: "",
+  _id: ""
 };
 const commentInfo = {
   name: "",
@@ -54,5 +55,6 @@ export interface blog {
   authorGoogleId: string;
   timestamp: string;
   id: String;
+  _id: string;
 }
 export { userInfo, blogInfo, commentInfo };

@@ -20,10 +20,11 @@ export default function Author() {
   useEffect(() => {
     loadScript();
     axios
-      .get(`/api/author/${id}`)
+      .get(`/api/authorProfile/${id}`)
       .then((res) => {
-        console.log(res.data);
+        console.log(`author info ${res.data}`);
         setUserBio(res.data);
+        document.title = `${res.data.name}'s Post` || "";
       })
       .catch((err) => console.log(err));
     axios
