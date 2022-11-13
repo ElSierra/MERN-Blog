@@ -24,7 +24,6 @@ export default function Blog() {
     return str.length > length ? str.substring(0, length) + "..." : str;
   };
   useEffect(() => {
-   
     console.log(id);
     loadScript();
     axios
@@ -42,9 +41,9 @@ export default function Blog() {
         setComment(res.data);
       })
       .catch((err) => console.log(err));
-  }, );
+  });
   function refreshComment() {
-    console.log('refreshing');
+    console.log("refreshing");
     axios
       .get(`/api/comments/${id}`)
       .then((res) => {
@@ -53,7 +52,7 @@ export default function Blog() {
       })
       .catch((err) => console.log(err));
   }
- 
+
   const User = JSON.parse(
     localStorage.getItem("userInfo") ||
       '{"_id":"","name":"","email":"","picture":"","googleId":"","userType":""}'
@@ -62,7 +61,6 @@ export default function Blog() {
     return blog.content.replace(/\n/g, "<br />");
   }
 
-  
   return (
     <body className="post-template tag-design tag-idea tag-review">
       <div className="global-wrap">
@@ -136,7 +134,6 @@ export default function Blog() {
                   <div className="post-share-wrap" style={{ right: "0%" }}>
                     <a
                       href={`https://twitter.com/intent/tweet?url=${window.location.href}`}
-                      target="_blank"
                       rel="noopener"
                       aria-label="Share on Twitter"
                     >
@@ -150,7 +147,6 @@ export default function Blog() {
                     </a>
                     <a
                       href={`https://web.facebook.com/sharer/sharer.php?u=${window.location.href}`}
-                      target="_blank"
                       rel="noopener"
                       aria-label="Share on Facebook"
                     >
@@ -162,11 +158,15 @@ export default function Blog() {
                         <path d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z" />
                       </svg>
                     </a>
-                  
-                    <a
-                      href="javascript:"
+
+                    <Link
+                      to={"#"}
                       className="post-share-link"
                       id="copy"
+                      onClick={()=>{
+                       navigator.clipboard.writeText(window.location.href)
+
+                      }}
                       data-clipboard-target="#copy-link"
                       aria-label="Copy link"
                     >
@@ -177,9 +177,9 @@ export default function Blog() {
                       >
                         <path d="M27.3999996,13.4004128 L21.7999996,13.4004128 L21.7999996,19 L18.9999996,19 L18.9999996,13.4004128 L13.3999996,13.4004128 L13.3999996,10.6006192 L18.9999996,10.6006192 L18.9999996,5 L21.7999996,5 L21.7999996,10.6006192 L27.3999996,10.6006192 L27.3999996,13.4004128 Z M12,20.87 C7.101,20.87 3.13,16.898 3.13,12 C3.13,7.102 7.101,3.13 12,3.13 C12.091,3.13 12.181,3.139 12.272,3.142 C9.866,5.336 8.347,8.487 8.347,12 C8.347,15.512 9.866,18.662 12.271,20.857 C12.18,20.859 12.091,20.87 12,20.87 Z M20.347,0 C18.882,0 17.484,0.276 16.186,0.756 C14.882,0.271 13.473,0 12,0 C5.372,0 0,5.373 0,12 C0,18.628 5.372,24 12,24 C13.471,24 14.878,23.726 16.181,23.242 C17.481,23.724 18.88,24 20.347,24 C26.975,24 32.347,18.628 32.347,12 C32.347,5.373 26.975,0 20.347,0 Z" />
                       </svg>
-                    </a>
+                    </Link>
                     <small className="share-link-info global-alert">
-                      The link has been copied!
+                      {window.location.href} been copied!
                     </small>
                   </div>
                   <input
@@ -193,16 +193,23 @@ export default function Blog() {
             </article>
 
             {comment.map((comment) => {
-              
-              return <CommentBox key = {comment._id} comment = {comment}/>;
+              return <CommentBox key={comment._id} comment={comment} />;
             })}
 
-            {User._id !== "" ?
-            <div className="blogPost"
-              style={{ maxWidth: "fit-content", margin: "5%" }}
-            >
-              <Comment userInfo={User} blogId = {id} refreshComment = {refreshComment}/>
-            </div> : ""}
+            {User._id !== "" ? (
+              <div
+                className="blogPost"
+                style={{ maxWidth: "fit-content", margin: "5%" }}
+              >
+                <Comment
+                  userInfo={User}
+                  blogId={id}
+                  refreshComment={refreshComment}
+                />
+              </div>
+            ) : (
+              ""
+            )}
           </main>
           <Footer />
         </div>

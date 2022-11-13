@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Avatar from "react-avatar";
 import EditIcon from "@mui/icons-material/Edit";
 import Fab from "@mui/material/Fab";
-import Dropdown from "react-bootstrap/Dropdown";
 
 export default function Header(props: any) {
   const logOut = () => {
@@ -20,19 +19,37 @@ export default function Header(props: any) {
         </div>
         <div className="header-nav">
           <span className="header-search search-open is-mobile">
-          <Link to={`/profile/`}>
-            <Avatar
-              className="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-default MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-default css-mm42gz-MuiButtonBase-root-MuiFab-root"
-              src={props.userInfo.picture}
-              googleId={props.userInfo.googleId}
-              size="50"
-              round={true}
-              style={{
-                display: "inline-block",
-                marginBottom: 0,
-                marginRight: 5,
-              }}
-            /></Link>
+            {props.userInfo._id !== "" ? (
+              <Link to={`/profile/`}>
+                <Avatar
+                  className="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-default MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-default css-mm42gz-MuiButtonBase-root-MuiFab-root"
+                  src={props.userInfo.picture}
+                  googleId={props.userInfo.googleId}
+                  size="50"
+                  round={true}
+                  style={{
+                    display: "inline-block",
+                    marginBottom: 0,
+                    marginRight: 5,
+                  }}
+                />
+              </Link>
+            ) : (
+              <Link to={`/signin/`}>
+                <Avatar
+                  className="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-default MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-default css-mm42gz-MuiButtonBase-root-MuiFab-root"
+                  src="/non.png"
+                  googleId={props.userInfo.googleId}
+                  size="50"
+                  round={true}
+                  style={{
+                    display: "inline-block",
+                    marginBottom: 0,
+                    marginRight: 5,
+                  }}
+                />
+              </Link>
+            )}
           </span>
 
           <nav>
@@ -46,37 +63,41 @@ export default function Header(props: any) {
               ) : (
                 ""
               )}
-              {props.userInfo._id !== "" ?<Link to={`/profile/`}>
-                <li className="is-dropdown">
-                  <Avatar
-                    className="comment-pic"
-                    src={props.userInfo.picture}
-                    googleId={props.userInfo.googleId}
-                    size="55"
-                    round={true}
-                    style={{
-                      display: "inline-block",
-                      marginBottom: 0,
-                      marginRight: 5,
-                    }}
-                  />
-                </li>
-              </Link>: <Link to={`/signin/`}>
-                <li className="is-dropdown">
-                  <Avatar
-                    className="comment-pic"
-                    src="/non.png"
-                    googleId={props.userInfo.googleId}
-                    size="55"
-                    round={true}
-                    style={{
-                      display: "inline-block",
-                      marginBottom: 0,
-                      marginRight: 5,
-                    }}
-                  />
-                </li>
-              </Link> }
+              {props.userInfo._id !== "" ? (
+                <Link to={`/profile/`}>
+                  <li className="is-dropdown">
+                    <Avatar
+                      className="comment-pic MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-default MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-default css-mm42gz-MuiButtonBase-root-MuiFab-root"
+                      src={props.userInfo.picture}
+                      googleId={props.userInfo.googleId}
+                      size="55"
+                      round={true}
+                      style={{
+                        display: "inline-block",
+                        marginBottom: 0,
+                        marginRight: 5,
+                      }}
+                    />
+                  </li>
+                </Link>
+              ) : (
+                <Link to={`/signin/`}>
+                  <li className="is-dropdown">
+                    <Avatar
+                      className="comment-pic MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-default MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-default css-mm42gz-MuiButtonBase-root-MuiFab-root"
+                      src="/non.png"
+                      googleId={props.userInfo.googleId}
+                      size="55"
+                      round={true}
+                      style={{
+                        display: "inline-block",
+                        marginBottom: 0,
+                        marginRight: 5,
+                      }}
+                    />
+                  </li>
+                </Link>
+              )}
               {/* <li className="header-search search-open is-desktop global-button">
                 <span >
                   <svg

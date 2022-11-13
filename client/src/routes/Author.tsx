@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 import Blog from "../components/posts/blogpost";
 
 export default function Author() {
-  const [loggedInUser, setLoggedInUser] = useState({});
+  
   const [userBio, setUserBio] = useState<users>(userInfo);
   const [authorBlog, setAuthorBlog] = useState<[blog]>([blogInfo]);
   const { id } = useParams();
