@@ -9,12 +9,12 @@ const userInfo = {
 };
 
 const blogInfo = {
-  title: "",
-  content: "",
-  date: "",
-  img: "",
+  title: "loading..",
+  content: "The content is loading please wait......",
+  date: "0/0/0",
+  img: "/load.png",
   authorName: "",
-  authorImg: "",
+  authorImg: "/logo.png",
   authorGoogleId: "",
   timestamp: "",
   id: "",

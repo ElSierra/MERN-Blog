@@ -197,12 +197,12 @@ export default function Blog() {
               return <CommentBox key = {comment._id} comment = {comment}/>;
             })}
 
-            <div
-              className="blogPost"
+            {User._id !== "" ?
+            <div className="blogPost"
               style={{ maxWidth: "fit-content", margin: "5%" }}
             >
               <Comment userInfo={User} blogId = {id} refreshComment = {refreshComment}/>
-            </div>
+            </div> : ""}
           </main>
           <Footer />
         </div>
