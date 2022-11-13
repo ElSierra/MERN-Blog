@@ -57,6 +57,10 @@ app.get("/compose", (req, res) => {
   res.send("error");
 });
 
+app.get("/blog/:id", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "public", "index.html"));
+});
+
 app.get("/profile", (req, res) => {
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
@@ -169,7 +173,7 @@ app.post("/api/blogpost", (req, res) => {
         id: id,
       });
 
-      if (env === process.env.TOKENFORBLOG) {
+      if (env === process.env.TOKENFORBLOG ) {
         newCompose.save((err) => {
           if (!err) {
             res.send(`Successfully added `);
