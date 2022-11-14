@@ -1,0 +1,4 @@
+$ $path=".\key.pem"
+$icacls.exe $path /reset
+$icacls.exe $path /inheritance:r
+$icacls.exe $path /GRANT:R "$($env:USERNAME):(R)"

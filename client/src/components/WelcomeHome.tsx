@@ -76,6 +76,9 @@ export default function Welcome(props: any) {
             ) : (
               ""
             )}
+            <Link to={"/signin"} className="global-button">
+                Signup/Login
+              </Link>
           </form>
           <div className="subscribe-form-caption">
             {props.userInfo.name === ""

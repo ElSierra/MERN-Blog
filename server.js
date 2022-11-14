@@ -173,7 +173,7 @@ app.post("/api/blogpost", (req, res) => {
         id: id,
       });
 
-      if (env === process.env.TOKENFORBLOG ) {
+      if (env === process.env.TOKENFORBLOG) {
         newCompose.save((err) => {
           if (!err) {
             res.send(`Successfully added `);
@@ -196,6 +196,22 @@ app.get("/api/singlepost/:id", (req, res) => {
   Blog.findOne({ _id: req.params.id }, (err, found) => {
     !err ? res.send(found) : console.log(err);
   });
+});
+
+app.get("/download/:filename", (req, res) => {
+  const filePath = __dirname + "/public/" + req.params.filename;
+  res.download(
+    filePath,
+    "daughter.png", // Remember to include file extension
+    (err) => {
+      if (err) {
+        res.send({
+          error: err,
+          msg: "Problem downloading the file",
+        });
+      }
+    }
+  );
 });
 
 //? - Gets the Authors BlogPost from the MongoDB by ID
