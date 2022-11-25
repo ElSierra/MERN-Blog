@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import Avatar from "react-avatar";
 import EditIcon from "@mui/icons-material/Edit";
 import Fab from "@mui/material/Fab";
+import Cookies from "js-cookie";
 
 export default function Header(props: any) {
   const logOut = () => {
     localStorage.removeItem("userInfo");
+    Cookies.remove('bearer');
   };
   console.log(props);
   return (

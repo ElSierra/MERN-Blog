@@ -8,6 +8,7 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { height, padding } from "@mui/system";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Cookies from 'js-cookie';
 
 export default function SignIn() {
   const [profile, setProfile] = useState(emptyData);
@@ -26,6 +27,7 @@ export default function SignIn() {
   const onSuccess = (res: any) => {
     console.log(res);
     setProfile(res.profileObj);
+    Cookies.set('bearer', res.tokenObj.id_token);
     const signInInfo = {
         ...res,userType: alignment,
     }
@@ -34,6 +36,7 @@ export default function SignIn() {
       .then(function (response) {
         console.log(response);
         localStorage.setItem("userInfo", JSON.stringify(response.data));
+        
       })
       .catch(function (error) {
         console.log(error.response.data);
@@ -49,6 +52,7 @@ export default function SignIn() {
     setIsSignedIn(false);
 
     localStorage.removeItem("userInfo");
+    Cookies.remove('bearer')
   };
   const onFailure = (err: Error) => {
     setIsSignedIn(false);
