@@ -124,13 +124,14 @@ export function Form(props: any) {
     const formData = new FormData();
 
     //  @ts-ignore
-    console.log(files[0].file);
+    //console.log(files[0].file);
     const formatedContent = ` ${blogPost.content.replace(
       /\r\n/g,
       "</p>\n<p>"
     )} `;
     console.log(formatedContent);
     //  @ts-ignore
+    
     formData.append("file", files[0].file);
     formData.append("env", process.env.REACT_APP_API_KEY || "");
     formData.append("title", blogPost.title.toString());
@@ -164,7 +165,7 @@ export function Form(props: any) {
           setFileLimit(true);
         } else if (response.data === "Successfully added ") {
           setFileLimit(false);
-          navigate("/");
+          
         }
       })
       .catch(function (error) {
@@ -219,7 +220,7 @@ export function Form(props: any) {
                 files={files}
                 // @ts-ignore
                 onupdatefiles={(e) => setFiles(e)}
-                allowMultiple={true}
+                allowMultiple={false}
                 maxFiles={1}
                 name="files"
                 labelIdle='<h2  style= "text-align:right">Click to upload Image</h2>'
@@ -261,7 +262,7 @@ export function Form(props: any) {
               </div>
             </div>
             <div className="form-group">
-              {files.length !== 0 ? (
+             
                 <button
                 style={{ fontSize: '12px'}}
                   type="submit"
@@ -272,9 +273,7 @@ export function Form(props: any) {
                 >
                   {props.name}
                 </button>
-              ) : (
-                ""
-              )}
+              
             </div>
           </form>
         </div>

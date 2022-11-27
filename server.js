@@ -17,6 +17,9 @@ const { router } = require("./routes/routes");
 const { post } = require("./routes/posts");
 const { json } = require("body-parser");
 const { protect } = require("./auth");
+const { image_url, generateAi } = require("./generate");
+
+
 
 /* 1- Create the .env File with the following content:
 MONGO_URI=your_mongo_uri
@@ -69,6 +72,7 @@ app.get("/author/:id", (req, res) => {
 });
 app.post("/api/login", (req, res) => {
   const header = req.headers;
+  console.log(header.cookie)
   console.log(header.cookie.split(";")[1].slice(8));
   const { googleId, imageUrl, email, name } = req.body.profileObj;
   const { userType } = req.body;

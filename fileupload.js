@@ -11,4 +11,4 @@ storage = multer.diskStorage({
     );
   },
 });
-exports.upload = multer({ storage: storage, limits: { fileSize: 5000000 } });
+exports.upload = multer({ storage: storage, limits: { fileSize: 500000 } });
