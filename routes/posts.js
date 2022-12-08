@@ -1,11 +1,12 @@
 const { Router } = require("express");
-
+const crypto = require("crypto");
 const { verify } = require("../googleAuth");
 const { Blog, Users, Comments } = require("../model");
 const axios = require("axios");
 const post = Router();
 const { upload } = require("../fileupload");
 const { generateAi } = require("../generate");
+const fs = require("fs");
 
 const uploadImage = upload.single("file");
 post.post("/api/blogpost", (req, res) => {
@@ -49,6 +50,7 @@ post.post("/api/blogpost", (req, res) => {
         res.send({ error: 401, msg: "Unautorized Access" });
       }
     } else {
+      const url = req.protocol + "://" + req.get("host");
       const {
         env,
         title,
@@ -64,41 +66,55 @@ post.post("/api/blogpost", (req, res) => {
 
       generateAi(title)
         .then((imageUrl) => {
-        //   axios({
-        //     url: imageUrl, //your url
-        //     method: 'GET',
-        //     responseType: 'blob', // important
-        // }).then((res)=>{
-        //   console.log(res);
-        //   uploadImage(re);
-        // }).catch(e=>{
-        //   console.error(e.message)
-        // })
-          {
-            const newCompose = new Blog({
-              title: title,
-              content: content,
-              date: date,
-              img: imageUrl,
-              authorName: authorName,
-              authorImg: authorImg,
-              authorGoogleId: authorGoogleId,
-              timestamp: timestamp,
-              id: id,
-            });
+          axios
+            .get(imageUrl, {
+              responseType: "arraybuffer",
+            })
+            .then((response) => {
+              // Create a buffer from the response data
+              const buffer = Buffer.from(response.data, "binary");
+              const randomString = crypto.randomBytes(5).toString("hex");
+              // Save the image to the server
+              fs.writeFile(
+                `./public/uploads/${randomString}.png`,
+                buffer,
+                (err) => {
+                  if (err) {
+                    console.error(err);
+                  } else {
+                    console.log("Image saved successfully!");
+                    {
+                      const newCompose = new Blog({
+                        title: title,
+                        content: content,
+                        date: date,
+                        img: url + "/uploads/" + randomString + ".png",
+                        authorName: authorName,
+                        authorImg: authorImg,
+                        authorGoogleId: authorGoogleId,
+                        timestamp: timestamp,
+                        id: id,
+                      });
 
-            if (env === process.env.TOKENFORBLOG) {
-              newCompose.save((err) => {
-                if (!err) {
-                  res.send(`Successfully added `);
-                } else {
-                  res.send(err);
+                      if (env === process.env.TOKENFORBLOG) {
+                        newCompose.save((err) => {
+                          if (!err) {
+                            res.send(`Successfully added `);
+                          } else {
+                            res.send(err);
+                          }
+                        });
+                      } else {
+                        res.send({ error: 401, msg: "Unautorized Access" });
+                      }
+                    }
+                  }
                 }
-              });
-            } else {
-              res.send({ error: 401, msg: "Unautorized Access" });
-            }
-          }
+              );
+            })
+            .catch((error) => {
+              console.error(error);
+            });
         })
         .catch((e) => {
           console.error(e);
